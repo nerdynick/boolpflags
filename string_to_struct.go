@@ -7,7 +7,7 @@ import (
 )
 
 type StringToStruct struct {
-	value  *interface{}
+	value  interface{}
 	parser func(string) (interface{}, error)
 }
 
@@ -16,18 +16,18 @@ func (s *StringToStruct) Set(val string) error {
 	if err != nil {
 		return err
 	}
-	*s.value = v
+	s.value = v
 	return nil
 }
 
 func (s *StringToStruct) Type() string   { return "stringtostruct" }
-func (s *StringToStruct) String() string { return fmt.Sprintf("%v", *s.value) }
+func (s *StringToStruct) String() string { return fmt.Sprintf("%v", s.value) }
 
-func StringToStructVar(f *pflag.FlagSet, p *interface{}, name string, usage string, parser func(string) (interface{}, error)) {
+func StringToStructVar(f *pflag.FlagSet, p interface{}, name string, usage string, parser func(string) (interface{}, error)) {
 	StringToStructVarP(f, p, name, "", usage, parser)
 }
 
-func StringToStructVarP(f *pflag.FlagSet, p *interface{}, name string, short string, usage string, parser func(string) (interface{}, error)) {
+func StringToStructVarP(f *pflag.FlagSet, p interface{}, name string, short string, usage string, parser func(string) (interface{}, error)) {
 	f.VarP(&StringToStruct{
 		value:  p,
 		parser: parser,
